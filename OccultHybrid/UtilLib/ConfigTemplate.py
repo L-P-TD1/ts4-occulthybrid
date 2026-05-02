@@ -16,7 +16,8 @@ CONFIG_DEFAULT = {
     "occult_form_memory": True,
     "allow_hybrid_babies": True,
     "post_cas_occult_autoadd": False,
-    "werewolf_stabilization": False
+    "werewolf_stabilization": False,
+    "debug_log_commodity": False
     # "show_autoadd_dialog": True,
     # "last_played_version": "1.xx",
     # "perm_no_show_autoadd_dialog": False
@@ -27,7 +28,8 @@ CONFIG_CHANGE_SHOW = {
     "occult_form_memory": True,
     "allow_hybrid_babies": True,
     "post_cas_occult_autoadd": False,
-    "werewolf_stabilization": True
+    "werewolf_stabilization": True,
+    "debug_log_commodity": False
     # "show_autoadd_dialog": False, # Will never show change dialog unless via command
     # "last_played_version": False,
     # "perm_no_show_autoadd_dialog": False
