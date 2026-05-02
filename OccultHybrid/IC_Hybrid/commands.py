@@ -1,5 +1,5 @@
 import services
-from event_testing.resolver import SingleSimResolver
+from OccultHybrid.IC_Hybrid.occult_cache import OccultDataCache
 from server_commands.argument_helpers import get_optional_target, OptionalTargetParam, OptionalSimInfoParam, TunableInstanceParam
 from services import client_manager
 from sims.occult.occult_enums import OccultType
@@ -401,7 +401,7 @@ def cmd_recalc_all(opt_sim: OptionalTargetParam=None, _connection=None):
     return True
 
 
-@Command('td1hybrid.view_cache_occults')
+@Command('td1hybrid.view_sim_cached_occults')
 def cmd_view_cache_occults(opt_sim: OptionalTargetParam, _connection=None):
     output = Output(_connection)
     sim = get_optional_target(opt_sim, _connection)
@@ -409,28 +409,21 @@ def cmd_view_cache_occults(opt_sim: OptionalTargetParam, _connection=None):
 
     cache_map = occult_tracker._sim_info_map.copy()
 
-    for occult in OccultType:
+    output(f"OCCULT CACHE MAP [{sim.sim_info.first_name} {sim.sim_info.last_name}]\n\n")
+
+    for k, v in cache_map.items():
+        output(f"CLASS REF: {v} - {OccultType(k)}\n\n")
+
         if master_logger is not None and master_logger is not False:
-            if (occult_tracker.has_occult_type(occult) or occult == OccultType.HUMAN) and occult != OccultType.WITCH:
-                master_logger.info(
-                    f"OCCULT CACHE MAP [{sim.sim_info.first_name} {sim.sim_info.last_name}] - {occult}\n\n"
-                    f"{cache_map[occult]}\n\n"
-                    f"ATTRIBUTES: {cache_map[occult]._base}\n\n"
-                    f"NESTED VARS: {vars(cache_map[occult])}\n\n"
-                    # f"ATTRIBUTES: {vars(cache_map[occult]._base)}"
-                )
-
-                # if occult != OccultType.HUMAN and occult_tracker.has_occult_type(occult):
-                #     master_logger.info(
-                #         f"{cache_map[occult | OccultType.HUMAN]}\n\n"
-                #         f"NESTED VARS: {vars(cache_map[occult])}"
-                #     )
-
-    output("Please view Master_Log.log for output.")
+            master_logger.info(
+                f"OCCULT CACHE MAP [{sim.sim_info.first_name} {sim.sim_info.last_name}] - {k}\n\n"
+                f"CLASS REF: {v}\n\n"
+                f"NESTED VARS: {vars(v)}\n\n"
+            )
 
 
 @Command('td1hybrid.refresh_motives')
-def cmd_view_cache_occults(opt_sim: OptionalTargetParam, _connection=None):
+def cmd_refresh_motives(opt_sim: OptionalTargetParam, _connection=None):
     output = Output(_connection)
     sim = get_optional_target(opt_sim, _connection)
     sim.sim_info.trait_tracker.sort_and_send_commodity_list()
@@ -493,3 +486,63 @@ def cmd_switch_occult(opt_sim: OptionalTargetParam, occult: str, _connection=Non
 
     output(f"Sim: {sim.sim_info.first_name} {sim.sim_info.last_name} | Switched to Occult: {occult}")
 
+
+@Command('td1hybrid.view_global_cached_occults')
+def cmd_view_global_cache_occults(_connection=None):
+    output = Output(_connection)
+
+    msg = (
+        f"OCCULTDATACACHE CLASS\n\n"
+        f"EXIT TRAITS: {OccultDataCache.occult_exit_traits}\n\n"
+        f"REMOVAL TRAITS: {OccultDataCache.occult_removal_traits}\n\n"
+        f"ADD ACTIONS: {OccultDataCache.occult_add_actions}\n\n"
+        f"CUSTOM OCCULTS: {OccultDataCache.custom_occults}\n\n"
+    )
+
+    output(msg)
+
+    if master_logger is not None and master_logger is not False:
+        master_logger.info(msg)
+
+
+@Command('td1hybrid.view_cas_cached_sims')
+def cmd_view_cas_cached_sims(_connection=None):
+    output = Output(_connection)
+
+    msg = f"CAS OCCULT MAP CACHE\n\n"
+    output(msg)
+
+    for k, v in occult_map_cache.items():
+        sim = get_optional_target(OptionalTargetParam(str(k)))
+        sim_name = f"{sim.sim_info.first_name} {sim.sim_info.last_name}" if sim is not None else f"{k}"
+        conv_v = {OccultType(nk): nv for nk, nv in v.items()}
+        ext = f"SIM: {sim_name}\n\nOCCULT MAP: {conv_v}\n\n"
+        msg += ext
+        output(ext)
+
+
+    if master_logger is not None and master_logger is not False:
+        master_logger.info(msg)
+
+
+@Command("td1occulthybrid.help")
+def cmd_view_help(_connection=None):
+    output = Output(_connection)
+    output('============================================================================')
+    output("iced_cream.hybrid.commands.edit_form_in_cas {occult_type} {opt_sim}")
+    output("iced_cream.hybrid.commands.set_occult_type {occult_type} {opt_sim}")
+    output("iced_cream.hybrid.commands.switch_to_occult {occult_type} {opt_sim}")
+    output("iced_cream.hybrid.commands.remove_conflicting_traits_for_occult_type {occult_type} {opt_sim}")
+    output("iced_cream.hybrid.commands.add_occult_type {occult_type} {opt_sim}")
+    output("cas.plan_batuu_outfit {opt_sim}")
+    output("iced_cream.hybrid.commands.force_add_trait {trait} {opt_sim}")
+    output("iced_cream.hybrid.commands.delete_form {occult_type} {opt_sim}")
+    output("td1hybrid.commands.restore_occult {opt_sim}")
+    output("td1hybrid.commands.recalc_all {opt_sim}")
+    output("td1hybrid.view_sim_cached_occults {opt_sim}")
+    output("td1hybrid.refresh_motives {opt_sim}")
+    output("td1occulthandler.switch_occult {opt_sim}")
+    output("td1hybrid.view_global_cached_occults")
+    output("td1hybrid.view_cas_cached_sims")
+    output("\noccult_type (OccultType -> int/IntFlag): \n1: HUMAN\n2: ALIEN\n4: VAMPIRE\n8: MERMAID\n16: WITCH\n32: WEREWOLF\n64: FAIRY")
+    output("\nopt_sim: Use sims.get_sim_id_by_name {first_name} {last_name} command")

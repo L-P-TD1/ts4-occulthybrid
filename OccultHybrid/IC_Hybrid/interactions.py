@@ -65,7 +65,7 @@ class HybridOccultPickerSuperInteraction(PickerSuperInteraction):
                         tuning_group=(GroupNames.PICKERTUNING))}
 
     @classmethod
-    def _test(cls, target, context, **interaction_parameters):
+    def _test(cls, *args, picked_row=None, **kwargs):
         if OccultTracker.OCCULT_DATA:
             for occult in OccultTracker.OCCULT_DATA:
                 if not occult_utils.is_custom_occult(occult):
@@ -307,7 +307,7 @@ class OccultCASPickerSuperInteraction(HybridOccultPickerSuperInteraction):
                         tuning_group=(GroupNames.PICKERTUNING))}
 
     @classmethod
-    def _test(cls, target, context, **interaction_parameters):
+    def _test(cls, *args, picked_row=None, **kwargs):
         if OccultTracker.OCCULT_DATA:
             for occult in OccultTracker.OCCULT_DATA:
                 if not occult_utils.is_custom_occult(occult):
@@ -359,7 +359,7 @@ class OccultFormDeletePickerSuperInteraction(HybridOccultPickerSuperInteraction)
                         tuning_group=(GroupNames.PICKERTUNING))}
 
     @classmethod
-    def _test(cls, target, context, **interaction_parameters):
+    def _test(cls, *args, picked_row=None, **kwargs):
         if OccultTracker.OCCULT_DATA:
             for occult, tuning in OccultTracker.OCCULT_DATA.items():
                 if tuning.current_occult_trait is not None:
@@ -434,7 +434,7 @@ class OccultTypePickerSuperInteraction(HybridOccultPickerSuperInteraction):
        tuning_group=GroupNames.PICKERTUNING)}
 
     @classmethod
-    def _test(cls, target, context, **interaction_parameters):
+    def _test(cls, *args, picked_row=None, **kwargs):
         if OccultTracker.OCCULT_DATA:
             for occult, tuning in OccultTracker.OCCULT_DATA.items():
                 if tuning.experience_statistic is not None:
@@ -501,7 +501,7 @@ class OccultPerkResetPickerSuperInteraction(HybridOccultPickerSuperInteraction):
                         tuning_group=(GroupNames.PICKERTUNING))}
 
     @classmethod
-    def _test(cls, target, context, **interaction_parameters):
+    def _test(cls, *args, picked_row=None, **kwargs):
         if OccultTracker.OCCULT_DATA:
             for occult, tuning in OccultTracker.OCCULT_DATA.items():
                 for occult_str, tuning_dict in OCCULT_DATA_REF.items():
@@ -654,10 +654,10 @@ class OccultSecondaryFormPickerSuperInteraction(HybridOccultPickerSuperInteracti
     }
 
     @classmethod
-    def _test(cls, target, context, **interaction_parameters):
+    def _test(cls, *args, picked_row=None, **kwargs):
         if OccultTracker.OCCULT_DATA:
             for occult, tuning in OccultTracker.OCCULT_DATA.items():
-                if tuning.experience_statistic is not None:
+                if tuning.current_occult_trait is not None:
                     return event_testing.results.TestResult.TRUE
 
             return TestResult(False)
@@ -714,8 +714,9 @@ class OccultSecondaryFormPickerSuperInteraction(HybridOccultPickerSuperInteracti
     @classmethod
     def _occult_gen(cls, participant):
         for occult, tuning in OccultTracker.OCCULT_DATA.items():
-            if tuning.occult_trait is not None and tuning.experience_statistic is not None:
-                is_enabled = participant.sim_info.occult_tracker.has_occult_type(occult)
+            if tuning.occult_trait is not None and tuning.current_occult_trait is not None:
+                is_enabled = (participant.sim_info.occult_tracker.has_occult_type(occult) or
+                              participant.sim_info.occult_tracker.has_occult_type(occult | OccultType.HUMAN))
                 yield (occult, tuning.occult_trait, is_enabled)
 
         # Human Trait

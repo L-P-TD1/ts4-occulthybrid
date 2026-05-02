@@ -12,7 +12,7 @@ class ClassInstanceTuningInjection:
         if not OccultTracker.OCCULT_DATA or OccultType.MERMAID not in OccultTracker.OCCULT_DATA:
             return
         trait_mermaid_of_age = get_resource_of_type_from_id(211545, Types.TRAIT)
-        restricted_ages = {Age.BABY, Age.TODDLER, Age.CHILD}
+        restricted_ages = {Age.BABY, Age.INFANT, Age.TODDLER, Age.CHILD}
         remove_ages_from_trait(trait_mermaid_of_age, restricted_ages)
         mermaid_tuning = OccultTracker.OCCULT_DATA.get(OccultType.MERMAID)
         if not mermaid_tuning.additional_occult_traits:
@@ -59,7 +59,7 @@ class ClassInstanceTuningInjection:
         if trait_vampire_manual_dark_form:
             OccultDataCache.cache_exit_traits(OccultType.VAMPIRE, [trait_vampire_manual_dark_form])
             OccultDataCache.cache_removal_traits(OccultType.VAMPIRE, [trait_vampire_manual_dark_form])
-            remove_ages_from_trait(trait_vampire_manual_dark_form, {Age.BABY, Age.TODDLER, Age.CHILD})
+            remove_ages_from_trait(trait_vampire_manual_dark_form, {Age.BABY, Age.INFANT, Age.TODDLER, Age.CHILD})
 
     @staticmethod
     def _process_plantsim_trait():
@@ -78,12 +78,37 @@ class ClassInstanceTuningInjection:
                     trait_plantsim.icon = buff_plantsim.icon
 
     @staticmethod
+    def _process_werewolf_traits():
+        trait_wereform = get_resource_of_type_from_id(276222, Types.TRAIT)
+        if trait_wereform:
+            OccultDataCache.cache_exit_traits(OccultType.WEREWOLF, [trait_wereform])
+            OccultDataCache.cache_removal_traits(OccultType.WEREWOLF, [trait_wereform])
+            remove_ages_from_trait(trait_wereform, {Age.BABY, Age.INFANT, Age.TODDLER, Age.CHILD})
+
+    @staticmethod
+    def _process_fairy_traits():
+        trait_fairy_form = get_resource_of_type_from_id(414621, Types.TRAIT)
+        if trait_fairy_form:
+            OccultDataCache.cache_exit_traits(OccultType.FAIRY, [trait_fairy_form])
+            OccultDataCache.cache_removal_traits(OccultType.FAIRY, [trait_fairy_form])
+            remove_ages_from_trait(trait_fairy_form, {Age.BABY, Age.INFANT, Age.TODDLER, Age.CHILD})
+
+    @staticmethod
+    def _process_fairy_bloodline_traits():
+        fairy_bloodline_trait = get_resource_of_type_from_id(433290, Types.TRAIT)
+        if fairy_bloodline_trait:
+            remove_all_occult_conflicts_from_trait(fairy_bloodline_trait)
+
+    @staticmethod
     def _process_traits():
         ClassInstanceTuningInjection._process_mermaid_traits()
         ClassInstanceTuningInjection._process_servo_traits()
         ClassInstanceTuningInjection._process_bloodline_traits()
         ClassInstanceTuningInjection._cache_vampire_manual_dark_form_trait()
         ClassInstanceTuningInjection._process_plantsim_trait()
+        ClassInstanceTuningInjection._process_werewolf_traits()
+        ClassInstanceTuningInjection._process_fairy_traits()
+        ClassInstanceTuningInjection._process_fairy_bloodline_traits()
         for occult, tuning in OccultTracker.OCCULT_DATA.items():
             occult_trait = tuning.occult_trait
             if not occult_trait:

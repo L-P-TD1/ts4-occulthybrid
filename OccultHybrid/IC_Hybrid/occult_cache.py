@@ -1,13 +1,10 @@
 from sims.occult.occult_enums import OccultType
-from sims.sim_info import SimInfo
-from sims.sim_info_base_wrapper import SimInfoBaseWrapper
 
 
-enter_cas = False
-occult_swap_temp_blacklist = None
-sim_physical_attr_cache = dict()
-sim_outfit_cache = dict()
-
+# enter_cas = False
+# occult_swap_temp_blacklist = None
+# sim_physical_attr_cache = dict()
+# sim_outfit_cache = dict()
 
 
 class OccultDataCache:
@@ -23,13 +20,13 @@ class OccultDataCache:
     occult_exit_traits = dict()
     occult_removal_traits = dict()
     occult_add_actions = dict()
-    occult_forms_cache = dict()
-    sim_physical_attr_cache = dict()
-    sim_outfit_cache = dict()
     custom_occults = dict()
-    occult_swap_temp_blacklist = None
+    # occult_forms_cache = dict()
+    # sim_physical_attr_cache = dict()
+    # sim_outfit_cache = dict()
     _processed_custom_occults = False
-    enter_cas = False
+    # occult_swap_temp_blacklist = None
+    # enter_cas = False
 
     @classmethod
     def cache_exit_traits(cls, occult_type: OccultType, traits: list):
@@ -66,38 +63,38 @@ class OccultDataCache:
                 if occult >= 1024 and occult not in cls.custom_occults:
                     cls.cache_custom_occult(occult, cls.CustomOccultData())
 
-    @classmethod
-    def process_outfit_data(cls, sim_id, occult_type, outfit_data):
-        if occult_type not in cls.sim_outfit_cache:
-            cls.sim_outfit_cache[sim_id] = {occult_type: outfit_data}
-        else:
-            cls.sim_outfit_cache[sim_id][occult_type].extend(outfit_data)
-
-    @classmethod
-    def process_sim_attributes(cls, sim_id, occult_type, sim_attr):
-        if sim_id not in cls.sim_physical_attr_cache:
-            cls.sim_physical_attr_cache[sim_id] = {occult_type: sim_attr}
-        else:
-            cls.sim_physical_attr_cache[sim_id][occult_type].extend(sim_attr)
-
-    @classmethod
-    def update_blacklisted_occult_for_cas(cls, occult_type):
-        cls.occult_swap_temp_blacklist = occult_type
-
-    @classmethod
-    def update_enter_cas(cls, cas_update=False):
-        cls.enter_cas = cas_update
-
-
-def process_outfit_data(sim_id, outfit_data: dict):
-    if sim_id not in sim_outfit_cache:
-        sim_outfit_cache[sim_id] = outfit_data
-    else:
-        sim_outfit_cache[sim_id].extend(outfit_data)
+    # @classmethod
+    # def process_outfit_data(cls, sim_id, occult_type, outfit_data):
+    #     if occult_type not in cls.sim_outfit_cache:
+    #         cls.sim_outfit_cache[sim_id] = {occult_type: outfit_data}
+    #     else:
+    #         cls.sim_outfit_cache[sim_id][occult_type].extend(outfit_data)
+    #
+    # @classmethod
+    # def process_sim_attributes(cls, sim_id, occult_type, sim_attr):
+    #     if sim_id not in cls.sim_physical_attr_cache:
+    #         cls.sim_physical_attr_cache[sim_id] = {occult_type: sim_attr}
+    #     else:
+    #         cls.sim_physical_attr_cache[sim_id][occult_type].extend(sim_attr)
+    #
+    # @classmethod
+    # def update_blacklisted_occult_for_cas(cls, occult_type):
+    #     cls.occult_swap_temp_blacklist = occult_type
+    #
+    # @classmethod
+    # def update_enter_cas(cls, cas_update=False):
+    #     cls.enter_cas = cas_update
 
 
-def process_sim_attributes(sim_id, sim_attr: dict):
-    if sim_id not in sim_physical_attr_cache:
-        sim_physical_attr_cache[sim_id] = sim_attr
-    else:
-        sim_physical_attr_cache[sim_id].extend(sim_attr)
+# def process_outfit_data(sim_id, outfit_data: dict):
+#     if sim_id not in sim_outfit_cache:
+#         sim_outfit_cache[sim_id] = outfit_data
+#     else:
+#         sim_outfit_cache[sim_id].extend(outfit_data)
+#
+#
+# def process_sim_attributes(sim_id, sim_attr: dict):
+#     if sim_id not in sim_physical_attr_cache:
+#         sim_physical_attr_cache[sim_id] = sim_attr
+#     else:
+#         sim_physical_attr_cache[sim_id].extend(sim_attr)

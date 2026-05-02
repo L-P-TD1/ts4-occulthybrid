@@ -94,7 +94,7 @@ def get_commodity_list(trait_tracker_instance):
                         motives.append(override_commodity)
                         override_dict[render_style] = motives
 
-    if master_logger is not None and master_logger is not False:
+    if master_logger is not None and master_logger is not False and get_option_value("debug_log_commodity"):
         master_logger.debug(
             f"OVERRIDE COMMODITY DICT VIEW\n"
             f"\n"
@@ -110,7 +110,7 @@ def get_commodity_list(trait_tracker_instance):
     motive_dict = {}
     current_occult = trait_tracker_instance._sim_info.occult_types
     for motive in commodities:
-        if master_logger is not None and master_logger is not False:
+        if master_logger is not None and master_logger is not False and get_option_value("debug_log_commodity"):
             master_logger.debug(
                 f"COMMODITY FOR TEST: {motive}"
             )
@@ -122,7 +122,7 @@ def get_commodity_list(trait_tracker_instance):
         blacklist = False
         for blacklist_motive in BLACKLIST_MOTIVES:
             if motive == services.get_instance_manager(Types.STATISTIC).get(blacklist_motive):
-                if master_logger is not None and master_logger is not False:
+                if master_logger is not None and master_logger is not False and get_option_value("debug_log_commodity"):
                     master_logger.debug(
                         f"Commodity {motive} matches Commodity {services.get_instance_manager(Types.STATISTIC).get(blacklist_motive)}"
                     )
@@ -136,7 +136,7 @@ def get_commodity_list(trait_tracker_instance):
             if motive == services.get_instance_manager(Types.STATISTIC).get(LONG_BAR_MOTIVE[OccultType.VAMPIRE]):
                 blacklist = True
 
-                if master_logger is not None and master_logger is not False:
+                if master_logger is not None and master_logger is not False and get_option_value("debug_log_commodity"):
                     master_logger.debug(
                         f"Sim is Fairy\n"
                         f"\n"
@@ -154,7 +154,7 @@ def get_commodity_list(trait_tracker_instance):
             if motive == services.get_instance_manager(Types.STATISTIC).get(LONG_BAR_MOTIVE[OccultType.FAIRY]):
                 blacklist = True
 
-                if master_logger is not None and master_logger is not False:
+                if master_logger is not None and master_logger is not False and get_option_value("debug_log_commodity"):
                     master_logger.debug(
                         f"Sim is not Fairy\n"
                         f"\n"
@@ -174,7 +174,7 @@ def get_commodity_list(trait_tracker_instance):
             if motive == services.get_instance_manager(Types.STATISTIC).get(ORB_MOTIVE_MAPPING[OccultType.WITCH]):
                 blacklist = True
 
-                if master_logger is not None and master_logger is not False:
+                if master_logger is not None and master_logger is not False and get_option_value("debug_log_commodity"):
                     master_logger.debug(
                         f"Sim is Werewolf\n"
                         f"\n"
@@ -191,7 +191,7 @@ def get_commodity_list(trait_tracker_instance):
             if motive == services.get_instance_manager(Types.STATISTIC).get(ORB_MOTIVE_MAPPING[OccultType.WEREWOLF]):
                 blacklist = True
 
-                if master_logger is not None and master_logger is not False:
+                if master_logger is not None and master_logger is not False and get_option_value("debug_log_commodity"):
                     master_logger.debug(
                         f"Sim is not Werewolf\n"
                         f"\n"
@@ -212,7 +212,7 @@ def get_commodity_list(trait_tracker_instance):
         if motive.visible:
             motive_dict[motive.ui_render_style].append(motive)
 
-    if master_logger is not None and master_logger is not False:
+    if master_logger is not None and master_logger is not False and get_option_value("debug_log_commodity"):
         master_logger.debug(
             f"MOTIVE DICT VIEW\n"
             f"\n"
@@ -236,7 +236,7 @@ def get_commodity_list(trait_tracker_instance):
             if current_occult == OccultType.FAIRY or current_occult == OccultType.HUMAN | OccultType.FAIRY or occult_utils.is_sim_in_form(
                     trait_tracker_instance._sim_info, OccultType.FAIRY):
                 if override_motive == services.get_instance_manager(Types.STATISTIC).get(BLACKLIST_OVERRIDE_MOTIVES[OccultType.FAIRY]):
-                    if master_logger is not None and master_logger is not False:
+                    if master_logger is not None and master_logger is not False and get_option_value("debug_log_commodity"):
                         master_logger.debug(
                             f"OVERRIDE MOTIVE REMOVAL\n"
                             f"\n"
@@ -266,7 +266,7 @@ def get_commodity_list(trait_tracker_instance):
                 temp_list = temp_list[:max_motives]
         temp_list = sorted(temp_list, key=(operator.attrgetter('ui_sort_order')))
 
-        if master_logger is not None and master_logger is not False:
+        if master_logger is not None and master_logger is not False and get_option_value("debug_log_commodity"):
             master_logger.debug(
                 f"SORTING MOTIVE DICT : {ui_style}\n"
                 f"\n"
@@ -288,7 +288,7 @@ def get_commodity_list(trait_tracker_instance):
         else:
             final_list = temp_list + final_list
 
-    if master_logger is not None and master_logger is not False:
+    if master_logger is not None and master_logger is not False and get_option_value("debug_log_commodity"):
         master_logger.debug(
             f"FINAL LIST VIEW\n"
             f"\n"
