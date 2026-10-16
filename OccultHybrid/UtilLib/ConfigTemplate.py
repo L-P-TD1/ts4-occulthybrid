@@ -17,7 +17,8 @@ CONFIG_DEFAULT = {
     "allow_hybrid_babies": True,
     "post_cas_occult_autoadd": False,
     "werewolf_stabilization": False,
-    "debug_log_commodity": False
+    "debug_log_commodity": False,
+    "cheat_debug_pie_menu": False
     # "show_autoadd_dialog": True,
     # "last_played_version": "1.xx",
     # "perm_no_show_autoadd_dialog": False
@@ -29,7 +30,8 @@ CONFIG_CHANGE_SHOW = {
     "allow_hybrid_babies": True,
     "post_cas_occult_autoadd": False,
     "werewolf_stabilization": True,
-    "debug_log_commodity": False
+    "debug_log_commodity": False,
+    "cheat_debug_pie_menu": False
     # "show_autoadd_dialog": False, # Will never show change dialog unless via command
     # "last_played_version": False,
     # "perm_no_show_autoadd_dialog": False

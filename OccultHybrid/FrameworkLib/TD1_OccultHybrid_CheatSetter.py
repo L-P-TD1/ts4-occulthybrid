@@ -19,7 +19,7 @@ Codes from other parties are not part of the License and Copyright.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 """
 import services
-# from DevAccessPanel.MainLib.TD1_DevAccessPanel_Config import get_option_value
+from OccultHybrid.CoreLib.TD1_OccultHybrid_Config import get_option_value
 from sims4.log import Logger
 from sims4.resources import Types
 from sims4.tuning.instances import HashedTunedInstanceMetaclass
@@ -79,8 +79,7 @@ class TD1DevAccessPanelCheatSetter(metaclass=HashedTunedInstanceMetaclass,
 
     @classmethod
     def _tuning_loaded_callback(cls):
-        # if get_option_value(cls.config_option) is True:
-        if True:
+        if get_option_value(cls.config_option) is True:
             for (affordances, cheat, debug) in cls.cheat_setter:
 
                 if affordances is None:
